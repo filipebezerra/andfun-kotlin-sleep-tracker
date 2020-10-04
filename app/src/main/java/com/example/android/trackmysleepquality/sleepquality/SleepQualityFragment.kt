@@ -20,10 +20,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.example.android.trackmysleepquality.R
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.android.trackmysleepquality.database.SleepDatabase
 import com.example.android.trackmysleepquality.databinding.FragmentSleepQualityBinding
+import com.example.android.trackmysleepquality.sleepquality.SleepQualityFragmentDirections.actionSleepQualityFragmentToSleepTrackerFragment as toSleepTrackerFragment
 
 /**
  * Fragment that displays a list of clickable icons,
@@ -38,15 +40,34 @@ class SleepQualityFragment : Fragment() {
      *
      * This function uses DataBindingUtil to inflate R.layout.fragment_sleep_quality.
      */
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? =
+            FragmentSleepQualityBinding.inflate(inflater)
+                    .apply {
+                        val viewModel = getViewModel()
+                        viewModel.navigateToSleepTrack.observe(viewLifecycleOwner) {
+                            if (it == true) {
+                                findNavController().navigate(toSleepTrackerFragment())
+                                viewModel.doneNavigating()
+                            }
+                        }
+                        lifecycleOwner = viewLifecycleOwner
+                        viewmodel = viewModel
+                    }.root
 
-        // Get a reference to the binding object and inflate the fragment views.
-        val binding: FragmentSleepQualityBinding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_sleep_quality, container, false)
+    private fun getViewModel(): SleepQualityViewModel =
+            createViewModelProvider().get(SleepQualityViewModel::class.java)
 
+    private fun createViewModelProvider(): ViewModelProvider {
         val application = requireNotNull(this.activity).application
-
-        return binding.root
+        val arguments = SleepQualityFragmentArgs.fromBundle(arguments!!)
+        val dataSource = SleepDatabase.getInstance(application.applicationContext).sleepDatabaseDao
+        return ViewModelProvider(this, SleepQualityViewModelFactory(
+                arguments.sleepNightKey,
+                dataSource
+        ))
     }
 }
