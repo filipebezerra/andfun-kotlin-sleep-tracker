@@ -27,6 +27,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.database.SleepDatabase
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
+import com.google.android.material.snackbar.Snackbar
 import com.example.android.trackmysleepquality.sleeptracker.SleepTrackerFragmentDirections.actionSleepTrackerFragmentToSleepQualityFragment as toSleepQualityFragment
 
 /**
@@ -35,6 +36,8 @@ import com.example.android.trackmysleepquality.sleeptracker.SleepTrackerFragment
  * (Because we have not learned about RecyclerView yet.)
  */
 class SleepTrackerFragment : Fragment() {
+
+    private val sleepTrackerViewModel by lazy { getViewModel() }
 
     /**
      * Called when the Fragment is ready to display content to the screen.
@@ -50,16 +53,33 @@ class SleepTrackerFragment : Fragment() {
                 false
         )
         binding.lifecycleOwner = viewLifecycleOwner
-        val sleepTrackerViewModel = getViewModel()
         binding.viewmodel = sleepTrackerViewModel
+        observeNavigateToSleepQuality()
+        observerShowSnackbarEvent()
+
+        return binding.root
+    }
+
+    private fun observeNavigateToSleepQuality() {
         sleepTrackerViewModel.navigateToSleepQuality.observe(viewLifecycleOwner) {
             it?.let {
                 findNavController().navigate(toSleepQualityFragment(it.nightId))
                 sleepTrackerViewModel.doneNavigating()
             }
         }
+    }
 
-        return binding.root
+    private fun observerShowSnackbarEvent() {
+        sleepTrackerViewModel.showSnackbarEvent.observe(viewLifecycleOwner) {
+            if (it == true) {
+                Snackbar.make(
+                        requireView(),
+                        R.string.cleared_message,
+                        Snackbar.LENGTH_LONG
+                ).show()
+                sleepTrackerViewModel.doneShowignSnackbar()
+            }
+        }
     }
 
     private fun getViewModel(): SleepTrackerViewModel {
