@@ -63,12 +63,8 @@ class SleepTrackerFragment : Fragment() {
         val sleepNightAdapter = createSleepNightAdapter()
         sleepTrackerViewModel.nights.observe(viewLifecycleOwner) {
             it?.let {
-                sleepNightAdapter.data = it
+                sleepNightAdapter.submitList(it)
             }
-
-//            if (it != null) {
-//                sleepNightAdapter.data = it
-//            }
         }
     }
 
