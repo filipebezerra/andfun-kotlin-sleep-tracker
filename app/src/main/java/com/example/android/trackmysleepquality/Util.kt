@@ -50,7 +50,7 @@ fun convertNumericQualityToString(quality: Int, resources: Resources): String = 
     OK_QUALITY -> resources.getString(R.string.three_ok)
     PRETTY_GOOD_QUALITY -> resources.getString(R.string.four_pretty_good)
     EXCELLENT_QUALITY -> resources.getString(R.string.five_excellent)
-    else -> "--"
+    else -> resources.getString(R.string.none_still_sleeping)
 }
 
 /**
@@ -148,6 +148,7 @@ fun convertDurationToFormatted(startTimeMilli: Long, endTimeMilli: Long, res: Re
     val durationMilli = endTimeMilli - startTimeMilli
     val weekdayString = SimpleDateFormat("EEEE", Locale.getDefault()).format(startTimeMilli)
     return when {
+        durationMilli == 0L -> res.getString(R.string.still_sleeping)
         durationMilli < ONE_MINUTE_MILLIS -> {
             val seconds = TimeUnit.SECONDS.convert(durationMilli, TimeUnit.MILLISECONDS)
             res.getString(R.string.seconds_length, seconds, weekdayString)
