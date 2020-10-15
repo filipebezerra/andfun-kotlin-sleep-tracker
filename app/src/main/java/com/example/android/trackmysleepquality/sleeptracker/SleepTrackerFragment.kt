@@ -37,6 +37,7 @@ import com.example.android.trackmysleepquality.sleeptracker.SleepTrackerFragment
 class SleepTrackerFragment : Fragment() {
 
     private val sleepTrackerViewModel by lazy { getViewModel() }
+    private lateinit var binding: FragmentSleepTrackerBinding
 
     /**
      * Called when the Fragment is ready to display content to the screen.
@@ -48,12 +49,35 @@ class SleepTrackerFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? =
-            FragmentSleepTrackerBinding.inflate(inflater).apply {
+            FragmentSleepTrackerBinding.inflate(inflater).
+            apply {
                 this.lifecycleOwner = viewLifecycleOwner
                 this.viewmodel = sleepTrackerViewModel
+                binding = this
                 observeNavigateToSleepQuality()
                 observerShowSnackbarEvent()
+                observeSleepNightList()
             }.root
+
+    private fun observeSleepNightList() {
+        val sleepNightAdapter = createSleepNightAdapter()
+        sleepTrackerViewModel.nights.observe(viewLifecycleOwner) {
+            it?.let {
+                sleepNightAdapter.data = it
+            }
+
+//            if (it != null) {
+//                sleepNightAdapter.data = it
+//            }
+        }
+    }
+
+    // TODO: Improve this code: lots of variable assingments
+    private fun createSleepNightAdapter(): SleepNightAdapter {
+        val sleepNightAdapter = SleepNightAdapter()
+        binding.sleepList.adapter = sleepNightAdapter
+        return sleepNightAdapter
+    }
 
     private fun observeNavigateToSleepQuality() =
             sleepTrackerViewModel.navigateToSleepQuality.observe(viewLifecycleOwner) {

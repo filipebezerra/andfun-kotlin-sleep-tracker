@@ -21,9 +21,20 @@ import android.content.res.Resources
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
+import androidx.annotation.DrawableRes
 import androidx.core.text.HtmlCompat
 import com.example.android.trackmysleepquality.database.SleepNight
 import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
+
+const val UNKNOWN_QUALITY = -1
+const val VERY_BAD_QUALITY = 0
+const val POOR_QUALITY = 1
+const val SO_SO_QUALITY = 2
+const val OK_QUALITY = 3
+const val PRETTY_GOOD_QUALITY = 4
+const val EXCELLENT_QUALITY = 5
 
 /**
  * These functions create a formatted string that can be set in a TextView.
@@ -32,19 +43,29 @@ import java.text.SimpleDateFormat
 /**
  * Returns a string representing the numeric quality rating.
  */
-fun convertNumericQualityToString(quality: Int, resources: Resources): String {
-    var qualityString = resources.getString(R.string.three_ok)
-    when (quality) {
-        -1 -> qualityString = "--"
-        0 -> qualityString = resources.getString(R.string.zero_very_bad)
-        1 -> qualityString = resources.getString(R.string.one_poor)
-        2 -> qualityString = resources.getString(R.string.two_soso)
-        4 -> qualityString = resources.getString(R.string.four_pretty_good)
-        5 -> qualityString = resources.getString(R.string.five_excellent)
-    }
-    return qualityString
+fun convertNumericQualityToString(quality: Int, resources: Resources): String = when (quality) {
+    VERY_BAD_QUALITY -> resources.getString(R.string.zero_very_bad)
+    POOR_QUALITY -> resources.getString(R.string.one_poor)
+    SO_SO_QUALITY -> resources.getString(R.string.two_soso)
+    OK_QUALITY -> resources.getString(R.string.three_ok)
+    PRETTY_GOOD_QUALITY -> resources.getString(R.string.four_pretty_good)
+    EXCELLENT_QUALITY -> resources.getString(R.string.five_excellent)
+    else -> "--"
 }
 
+/**
+ * Returns a string representing the numeric quality rating.
+ */
+@DrawableRes
+fun convertNumericQualityToImageResource(quality: Int): Int = when (quality) {
+    VERY_BAD_QUALITY -> R.drawable.ic_sleep_0
+    POOR_QUALITY -> R.drawable.ic_sleep_1
+    SO_SO_QUALITY -> R.drawable.ic_sleep_2
+    OK_QUALITY -> R.drawable.ic_sleep_3
+    PRETTY_GOOD_QUALITY -> R.drawable.ic_sleep_4
+    EXCELLENT_QUALITY -> R.drawable.ic_sleep_5
+    else -> R.drawable.ic_sleep_active
+}
 
 /**
  * Take the Long milliseconds returned by the system and stored in Room,
@@ -101,5 +122,43 @@ fun formatNights(nights: List<SleepNight>, resources: Resources): Spanned {
         Html.fromHtml(sb.toString(), Html.FROM_HTML_MODE_LEGACY)
     } else {
         HtmlCompat.fromHtml(sb.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+}
+
+/**
+ * These functions create a formatted string that can be set in a TextView.
+ */
+private val ONE_MINUTE_MILLIS = TimeUnit.MILLISECONDS.convert(1, TimeUnit.MINUTES)
+private val ONE_HOUR_MILLIS = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
+
+/**
+ * Convert a duration to a formatted string for display.
+ *
+ * Examples:
+ *
+ * 6 seconds on Wednesday
+ * 2 minutes on Monday
+ * 40 hours on Thursday
+ *
+ * @param startTimeMilli the start of the interval
+ * @param endTimeMilli the end of the interval
+ * @param res resources used to load formatted strings
+ */
+fun convertDurationToFormatted(startTimeMilli: Long, endTimeMilli: Long, res: Resources): String {
+    val durationMilli = endTimeMilli - startTimeMilli
+    val weekdayString = SimpleDateFormat("EEEE", Locale.getDefault()).format(startTimeMilli)
+    return when {
+        durationMilli < ONE_MINUTE_MILLIS -> {
+            val seconds = TimeUnit.SECONDS.convert(durationMilli, TimeUnit.MILLISECONDS)
+            res.getString(R.string.seconds_length, seconds, weekdayString)
+        }
+        durationMilli < ONE_HOUR_MILLIS -> {
+            val minutes = TimeUnit.MINUTES.convert(durationMilli, TimeUnit.MILLISECONDS)
+            res.getString(R.string.minutes_length, minutes, weekdayString)
+        }
+        else -> {
+            val hours = TimeUnit.HOURS.convert(durationMilli, TimeUnit.MILLISECONDS)
+            res.getString(R.string.hours_length, hours, weekdayString)
+        }
     }
 }
