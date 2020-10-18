@@ -1,14 +1,10 @@
 package com.example.android.trackmysleepquality.sleeptracker
 
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.trackmysleepquality.convertDurationToFormatted
-import com.example.android.trackmysleepquality.convertNumericQualityToImageResource
-import com.example.android.trackmysleepquality.convertNumericQualityToString
 import com.example.android.trackmysleepquality.database.SleepNight
 import com.example.android.trackmysleepquality.databinding.ListItemSleepNightBinding
 
@@ -29,13 +25,9 @@ class SleepNightViewHolder private constructor(
 ) : RecyclerView.ViewHolder(
         viewBinding.root
 ) {
-    private val resources: Resources by lazy { itemView.context.resources }
-
     fun bind(sleepNight: SleepNight) {
-        val (_, startTimeMilli, endTimeMilli, sleepQuality) = sleepNight
-        viewBinding.sleepLengthText.text = convertDurationToFormatted(startTimeMilli, endTimeMilli, resources)
-        viewBinding.qualityStringText.text = convertNumericQualityToString(sleepQuality, resources)
-        viewBinding.qualityImage.setImageResource(convertNumericQualityToImageResource(sleepQuality))
+        viewBinding.sleep = sleepNight
+        viewBinding.executePendingBindings()
     }
 
     companion object {
