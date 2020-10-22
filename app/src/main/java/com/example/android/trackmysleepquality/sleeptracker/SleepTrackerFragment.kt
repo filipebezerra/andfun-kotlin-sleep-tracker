@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.database.SleepDatabase
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
@@ -37,7 +38,8 @@ import com.example.android.trackmysleepquality.sleeptracker.SleepTrackerFragment
 class SleepTrackerFragment : Fragment() {
 
     private val sleepTrackerViewModel by lazy { getViewModel() }
-    private lateinit var binding: FragmentSleepTrackerBinding
+
+    private lateinit var sleepTrackerViewBinding: FragmentSleepTrackerBinding
 
     /**
      * Called when the Fragment is ready to display content to the screen.
@@ -49,11 +51,10 @@ class SleepTrackerFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? =
-            FragmentSleepTrackerBinding.inflate(inflater).
-            apply {
+            FragmentSleepTrackerBinding.inflate(inflater).apply {
                 this.lifecycleOwner = viewLifecycleOwner
                 this.viewmodel = sleepTrackerViewModel
-                binding = this
+                sleepTrackerViewBinding = this
                 observeNavigateToSleepQuality()
                 observerShowSnackbarEvent()
                 observeSleepNightList()
@@ -68,10 +69,10 @@ class SleepTrackerFragment : Fragment() {
         }
     }
 
-    // TODO: Improve this code: lots of variable assingments
     private fun createSleepNightAdapter(): SleepNightAdapter {
         val sleepNightAdapter = SleepNightAdapter()
-        binding.sleepList.adapter = sleepNightAdapter
+        sleepTrackerViewBinding.sleepList.adapter = sleepNightAdapter
+        sleepTrackerViewBinding.sleepList.layoutManager = GridLayoutManager(activity, 3)
         return sleepNightAdapter
     }
 
