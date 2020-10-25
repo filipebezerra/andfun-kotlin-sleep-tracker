@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.database.SleepDatabase
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
+import com.example.android.trackmysleepquality.sleeptracker.SleepTrackerFragmentDirections.actionSleepTrackerToSleepDetail
 import com.google.android.material.snackbar.Snackbar
 import com.example.android.trackmysleepquality.sleeptracker.SleepTrackerFragmentDirections.actionSleepTrackerFragmentToSleepQualityFragment as toSleepQualityFragment
 
@@ -36,6 +37,8 @@ import com.example.android.trackmysleepquality.sleeptracker.SleepTrackerFragment
  * (Because we have not learned about RecyclerView yet.)
  */
 class SleepTrackerFragment : Fragment() {
+
+    private val navController by lazy { findNavController() }
 
     private val sleepTrackerViewModel by lazy { getViewModel() }
 
@@ -58,6 +61,7 @@ class SleepTrackerFragment : Fragment() {
                 observeNavigateToSleepQuality()
                 observerShowSnackbarEvent()
                 observeSleepNightList()
+                observeNavigateToSleepDataQuality()
             }.root
 
     private fun observeSleepNightList() {
@@ -69,18 +73,26 @@ class SleepTrackerFragment : Fragment() {
         }
     }
 
+    private fun observeNavigateToSleepDataQuality() {
+        sleepTrackerViewModel.navigateToSleepDataQuality.observe(viewLifecycleOwner) { nightId ->
+            nightId?.let { navController.navigate(actionSleepTrackerToSleepDetail(nightId)) }
+        }
+    }
+
     private fun createSleepNightAdapter(): SleepNightAdapter {
-        val sleepNightAdapter = SleepNightAdapter()
+        val sleepNightAdapter = SleepNightAdapter(SleepNightListener { nightId ->
+            sleepTrackerViewModel.onSleepNightClicked(nightId)
+        })
         sleepTrackerViewBinding.sleepList.adapter = sleepNightAdapter
         sleepTrackerViewBinding.sleepList.layoutManager = GridLayoutManager(activity, 3)
         return sleepNightAdapter
     }
 
     private fun observeNavigateToSleepQuality() =
-            sleepTrackerViewModel.navigateToSleepQuality.observe(viewLifecycleOwner) {
-                it?.let {
-                    findNavController().navigate(toSleepQualityFragment(it.nightId))
-                    sleepTrackerViewModel.doneNavigating()
+            sleepTrackerViewModel.navigateToSleepQuality.observe(viewLifecycleOwner) { night ->
+                night?.let {
+                    navController.navigate(toSleepQualityFragment(it.nightId))
+                    sleepTrackerViewModel.onSleepDataQualityNavigated()
                 }
             }
 
