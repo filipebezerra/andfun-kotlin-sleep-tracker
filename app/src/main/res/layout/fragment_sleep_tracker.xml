@@ -83,7 +83,7 @@
             app:layout_constraintStart_toEndOf="@+id/start_button"
             app:layout_constraintTop_toTopOf="parent"
             android:onClick="@{() -> viewmodel.onStopTracking()}"
-            android:enabled="@{viewmodel.stotButtonVisible}"
+            android:enabled="@{viewmodel.stopButtonVisible}"
             />
 
         <Button
