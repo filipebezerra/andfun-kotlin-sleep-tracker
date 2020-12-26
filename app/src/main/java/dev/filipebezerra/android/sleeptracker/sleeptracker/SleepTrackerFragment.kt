@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.trackmysleepquality.sleepquality
+package dev.filipebezerra.android.sleeptracker.sleeptracker
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,16 +22,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.example.android.trackmysleepquality.R
-import com.example.android.trackmysleepquality.databinding.FragmentSleepQualityBinding
+import dev.filipebezerra.android.sleeptracker.R
+import dev.filipebezerra.android.sleeptracker.databinding.FragmentSleepTrackerBinding
 
 /**
- * Fragment that displays a list of clickable icons,
- * each representing a sleep quality rating.
- * Once the user taps an icon, the quality is set in the current sleepNight
- * and the database is updated.
+ * A fragment with buttons to record start and end times for sleep, which are saved in
+ * a database. Cumulative data is displayed in a simple scrollable TextView.
+ * (Because we have not learned about RecyclerView yet.)
  */
-class SleepQualityFragment : Fragment() {
+class SleepTrackerFragment : Fragment() {
 
     /**
      * Called when the Fragment is ready to display content to the screen.
@@ -42,10 +41,8 @@ class SleepQualityFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         // Get a reference to the binding object and inflate the fragment views.
-        val binding: FragmentSleepQualityBinding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_sleep_quality, container, false)
-
-        val application = requireNotNull(this.activity).application
+        val binding: FragmentSleepTrackerBinding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_sleep_tracker, container, false)
 
         return binding.root
     }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.trackmysleepquality
+package dev.filipebezerra.android.sleeptracker
 
 //import androidx.room.Room
 //import androidx.test.ext.junit.runners.AndroidJUnit4

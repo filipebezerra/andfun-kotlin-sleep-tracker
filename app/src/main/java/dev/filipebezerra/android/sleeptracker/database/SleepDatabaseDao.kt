@@ -14,4 +14,6 @@
  * limitations under the License.
  */
 
-package com.example.android.trackmysleepquality.sleepquality
+package dev.filipebezerra.android.sleeptracker.database
+
+interface SleepDatabaseDao
