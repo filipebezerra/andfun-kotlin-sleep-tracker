@@ -18,9 +18,9 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/blue_700</item>
+        <item name="colorPrimaryDark">@color/blue_dark_primary</item>
+        <item name="colorAccent">@color/yellow_500</item>
         <item name="fontFamily">@font/raleway</item>
         <item name="android:fontFamily">@font/raleway</item>
     </style>
@@ -28,8 +28,8 @@
     <!-- Basic styling for the buttons. -->
     <style name="SleepButtons" parent="Widget.AppCompat.Button.Colored">
         <item name="android:textColor">@color/white_text_color</item>
-        <item name="colorAccent">@color/green_color</item>
-        <item name="colorControlHighlight">@color/green_color</item>
+        <item name="colorAccent">@color/yellow_500</item>
+        <item name="colorControlHighlight">@color/yellow_500</item>
         <item name="android:textStyle">bold</item>
     </style>
 
