@@ -18,13 +18,13 @@ package dev.filipebezerra.android.sleeptracker.sleeptracker
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import dev.filipebezerra.android.sleeptracker.database.SleepDatabaseDao
+import dev.filipebezerra.android.sleeptracker.database.SleepNightDao
 
 /**
  * ViewModel for SleepTrackerFragment.
  */
 class SleepTrackerViewModel(
-        val database: SleepDatabaseDao,
+        val sleepNightDao: SleepNightDao,
         application: Application) : AndroidViewModel(application) {
 }
 

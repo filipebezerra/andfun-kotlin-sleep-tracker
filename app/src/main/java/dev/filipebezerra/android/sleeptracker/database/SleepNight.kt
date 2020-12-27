@@ -15,3 +15,21 @@
  */
 
 package dev.filipebezerra.android.sleeptracker.database
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
+
+@Entity(
+    tableName = "sleep_nights",
+    indices = [
+        Index(value = ["start_time_millis"], unique = true)
+    ]
+)
+data class SleepNight(
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") var nightId: Long = 0,
+    @ColumnInfo(name = "start_time_millis") val startTimeMillis: Long = System.currentTimeMillis(),
+    @ColumnInfo(name = "end_time_millis") var endTimeMillis: Long = startTimeMillis,
+    @ColumnInfo(name = "sleep_quality") var sleepQuality: Int = -1,
+)
