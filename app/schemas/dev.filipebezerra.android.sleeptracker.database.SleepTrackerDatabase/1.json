@@ -1,0 +1,61 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "0c472d1b9d69d062e0ee07e66b3d61a7",
+    "entities": [
+      {
+        "tableName": "sleep_nights",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `start_time_millis` INTEGER NOT NULL, `end_time_millis` INTEGER NOT NULL, `sleep_quality` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "nightId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startTimeMillis",
+            "columnName": "start_time_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endTimeMillis",
+            "columnName": "end_time_millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sleepQuality",
+            "columnName": "sleep_quality",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_sleep_nights_start_time_millis",
+            "unique": true,
+            "columnNames": [
+              "start_time_millis"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_sleep_nights_start_time_millis` ON `${TABLE_NAME}` (`start_time_millis`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0c472d1b9d69d062e0ee07e66b3d61a7')"
+    ]
+  }
+}
