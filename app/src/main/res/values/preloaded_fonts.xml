@@ -17,5 +17,6 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/raleway</item>
+        <item>@font/raleway_medium</item>
     </array>
 </resources>

@@ -68,11 +68,6 @@ dependencies {
     // Android KTX
     implementation "androidx.core:core-ktx:$version_core"
 
-    // Room and Lifecycle dependencies
-    implementation "androidx.room:room-runtime:$version_room"
-    kapt "androidx.room:room-compiler:$version_room"
-    implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
-
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_coroutine"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_coroutine"
@@ -83,11 +78,20 @@ dependencies {
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$version_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$version_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$version_lifecycle"
 
     // https://developer.android.com/jetpack/androidx/releases/room
     implementation "androidx.room:room-ktx:$version_room"
     kapt "androidx.room:room-compiler:$version_room"
     testImplementation "androidx.room:room-testing:$version_room"
+
+    implementation "androidx.fragment:fragment-ktx:$version_fragment"
+
+    // Third party
+
+    // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // Testing
 

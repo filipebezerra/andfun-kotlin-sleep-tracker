@@ -4,6 +4,7 @@
     >
 
     <application
+        android:name=".SleepTrackerApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_sleep_tracker"
         android:label="@string/app_name"
@@ -14,7 +15,6 @@
         <activity android:name="dev.filipebezerra.android.sleeptracker.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

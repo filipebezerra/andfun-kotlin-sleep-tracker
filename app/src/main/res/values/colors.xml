@@ -15,8 +15,6 @@
   -->
 
 <resources>
-    <color name="white_text_color">#f0f0f0</color>
-
     <color name="blue_700">#0336ff</color>
     <color name="blue_800">#0035c9</color>
     <color name="blue_dark_primary">#1c1d24</color>

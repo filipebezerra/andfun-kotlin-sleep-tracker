@@ -22,8 +22,6 @@ import androidx.lifecycle.ViewModelProvider
 import dev.filipebezerra.android.sleeptracker.database.SleepNightDao
 
 /**
- * This is pretty much boiler plate code for a ViewModel Factory.
- *
  * Provides the SleepDatabaseDao and context to the ViewModel.
  */
 class SleepTrackerViewModelFactory(
