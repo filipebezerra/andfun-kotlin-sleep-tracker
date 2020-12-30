@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package dev.filipebezerra.android.sleeptracker
+package dev.filipebezerra.android.sleeptracker.database
 
+// region Code
 //import androidx.room.Room
 //import androidx.test.ext.junit.runners.AndroidJUnit4
 //import androidx.test.platform.app.InstrumentationRegistry
@@ -69,4 +70,4 @@ package dev.filipebezerra.android.sleeptracker
 //    }
 //}
 //
-//
+// endregion
