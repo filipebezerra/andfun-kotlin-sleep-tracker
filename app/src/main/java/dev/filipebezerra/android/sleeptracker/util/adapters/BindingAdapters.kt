@@ -1,4 +1,4 @@
-package dev.filipebezerra.android.sleeptracker.util
+package dev.filipebezerra.android.sleeptracker.util.adapters
 
 import android.view.View
 import androidx.core.view.isVisible
