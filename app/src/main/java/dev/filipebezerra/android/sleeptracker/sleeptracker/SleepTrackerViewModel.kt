@@ -5,6 +5,8 @@ import androidx.lifecycle.*
 import dev.filipebezerra.android.sleeptracker.database.SleepNight
 import dev.filipebezerra.android.sleeptracker.database.SleepNightDao
 import dev.filipebezerra.android.sleeptracker.formatNights
+import dev.filipebezerra.android.sleeptracker.util.event.Event
+import dev.filipebezerra.android.sleeptracker.util.ext.postEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -38,6 +40,10 @@ class SleepTrackerViewModel(
         formatNights(it, application.resources)
     }
 
+    private val _navigateToSleepQuality = MutableLiveData<Event<SleepNight>>()
+    val navigateToSleepQuality: LiveData<Event<SleepNight>>
+        get() = _navigateToSleepQuality
+
     init {
         retrieveLatestNight()
     }
@@ -69,6 +75,7 @@ class SleepTrackerViewModel(
             val currentSleepNight = _tonight.value ?: return@launch
             currentSleepNight.endTimeMillis = System.currentTimeMillis()
             saveSleepNight(currentSleepNight)
+            _navigateToSleepQuality.postEvent(currentSleepNight)
         }
     }
 

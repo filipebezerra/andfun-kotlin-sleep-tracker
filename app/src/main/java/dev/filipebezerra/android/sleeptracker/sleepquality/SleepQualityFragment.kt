@@ -20,10 +20,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import dev.filipebezerra.android.sleeptracker.R
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dev.filipebezerra.android.sleeptracker.database.SleepTrackerDatabase
 import dev.filipebezerra.android.sleeptracker.databinding.FragmentSleepQualityBinding
+import dev.filipebezerra.android.sleeptracker.util.event.EventObserver
 
 /**
  * Fragment that displays a list of clickable icons,
@@ -31,22 +33,42 @@ import dev.filipebezerra.android.sleeptracker.databinding.FragmentSleepQualityBi
  * Once the user taps an icon, the quality is set in the current sleepNight
  * and the database is updated.
  */
-class SleepQualityFragment : Fragment() {
+class SleepQualityFragment : BottomSheetDialogFragment() {
+
+    private val arguments: SleepQualityFragmentArgs by navArgs()
+
+    private val viewModel: SleepQualityViewModel by viewModels{
+        SleepQualityViewModelFactory(
+            arguments.sleepNight,
+            SleepTrackerDatabase.getDatabase(requireContext()).sleepNightDao
+        )
+    }
+
+    private lateinit var viewBinding: FragmentSleepQualityBinding
 
     /**
      * Called when the Fragment is ready to display content to the screen.
      *
      * This function uses DataBindingUtil to inflate R.layout.fragment_sleep_quality.
      */
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = FragmentSleepQualityBinding.inflate(inflater, container, false)
+        .apply {
+            viewBinding = this
+            viewModel = this@SleepQualityFragment.viewModel
+            lifecycleOwner = viewLifecycleOwner
+        }
+        .root
 
-        // Get a reference to the binding object and inflate the fragment views.
-        val binding: FragmentSleepQualityBinding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_sleep_quality, container, false)
-
-        val application = requireNotNull(this.activity).application
-
-        return binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(viewModel) {
+            navigateToSleepTracker.observe(viewLifecycleOwner, EventObserver {
+                dismiss()
+            })
+        }
     }
 }

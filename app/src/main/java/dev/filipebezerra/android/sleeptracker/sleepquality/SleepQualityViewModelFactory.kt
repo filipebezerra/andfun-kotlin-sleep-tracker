@@ -15,3 +15,22 @@
  */
 
 package dev.filipebezerra.android.sleeptracker.sleepquality
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import dev.filipebezerra.android.sleeptracker.database.SleepNight
+import dev.filipebezerra.android.sleeptracker.database.SleepNightDao
+
+class SleepQualityViewModelFactory(
+    private val sleepNight: SleepNight,
+    private val dataSource: SleepNightDao,
+    ) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
+        if (modelClass.isAssignableFrom(SleepQualityViewModel::class.java)) {
+            SleepQualityViewModel(
+                sleepNight,
+                dataSource,
+            ) as T
+        } else throw IllegalArgumentException("Unknown ViewModel class ${SleepQualityViewModel::class.java}")
+}

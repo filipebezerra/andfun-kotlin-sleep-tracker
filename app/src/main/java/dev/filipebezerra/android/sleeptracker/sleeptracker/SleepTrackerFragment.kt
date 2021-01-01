@@ -20,12 +20,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import dev.filipebezerra.android.sleeptracker.R
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import dev.filipebezerra.android.sleeptracker.database.SleepTrackerDatabase
 import dev.filipebezerra.android.sleeptracker.databinding.FragmentSleepTrackerBinding
+import dev.filipebezerra.android.sleeptracker.util.event.EventObserver
+import dev.filipebezerra.android.sleeptracker.sleeptracker.SleepTrackerFragmentDirections.Companion.actionSleepTrackerFragmentToSleepQualityFragment as toSleepQualityFragment
 
 /**
  * A fragment with buttons to record start and end times for sleep, which are saved in
@@ -33,6 +35,10 @@ import dev.filipebezerra.android.sleeptracker.databinding.FragmentSleepTrackerBi
  * (Because we have not learned about RecyclerView yet.)
  */
 class SleepTrackerFragment : Fragment() {
+
+    private val navController: NavController by lazy { findNavController() }
+
+    private lateinit var viewBinding: FragmentSleepTrackerBinding
 
     private val viewModel: SleepTrackerViewModel by viewModels {
         SleepTrackerViewModelFactory(
@@ -52,8 +58,18 @@ class SleepTrackerFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View = FragmentSleepTrackerBinding.inflate(inflater, container, false)
             .apply {
+                viewBinding = this
                 viewModel = this@SleepTrackerFragment.viewModel
                 lifecycleOwner = viewLifecycleOwner
             }
             .root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(viewModel) {
+            navigateToSleepQuality.observe(viewLifecycleOwner, EventObserver {
+                navController.navigate(toSleepQualityFragment(it))
+            })
+        }
+    }
 }

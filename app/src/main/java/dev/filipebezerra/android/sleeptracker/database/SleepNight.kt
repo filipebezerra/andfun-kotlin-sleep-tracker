@@ -16,11 +16,14 @@
 
 package dev.filipebezerra.android.sleeptracker.database
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(
     tableName = "sleep_nights",
     indices = [
@@ -32,4 +35,4 @@ data class SleepNight(
     @ColumnInfo(name = "start_time_millis") val startTimeMillis: Long = System.currentTimeMillis(),
     @ColumnInfo(name = "end_time_millis") var endTimeMillis: Long = startTimeMillis,
     @ColumnInfo(name = "sleep_quality") var sleepQuality: Int = -1,
-)
+) : Parcelable
