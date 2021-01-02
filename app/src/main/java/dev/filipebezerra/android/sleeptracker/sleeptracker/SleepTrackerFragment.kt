@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import dev.filipebezerra.android.sleeptracker.database.SleepTrackerDatabase
+import dev.filipebezerra.android.sleeptracker.ServiceLocator
 import dev.filipebezerra.android.sleeptracker.databinding.FragmentSleepTrackerBinding
 import dev.filipebezerra.android.sleeptracker.util.event.EventObserver
 import dev.filipebezerra.android.sleeptracker.sleeptracker.SleepTrackerFragmentDirections.Companion.actionSleepTrackerFragmentToSleepQualityFragment as toSleepQualityFragment
@@ -26,7 +26,7 @@ class SleepTrackerFragment : Fragment() {
 
     private val viewModel: SleepTrackerViewModel by viewModels {
         SleepTrackerViewModelFactory(
-            SleepTrackerDatabase.getDatabase(requireContext()).sleepNightDao,
+            ServiceLocator.provideSleepNightRepository(requireContext()),
             requireActivity().application,
         )
     }

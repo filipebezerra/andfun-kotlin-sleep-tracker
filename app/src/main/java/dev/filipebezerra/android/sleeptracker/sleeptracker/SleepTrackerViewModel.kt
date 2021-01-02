@@ -3,23 +3,22 @@ package dev.filipebezerra.android.sleeptracker.sleeptracker
 import android.app.Application
 import androidx.lifecycle.*
 import dev.filipebezerra.android.sleeptracker.database.SleepNight
-import dev.filipebezerra.android.sleeptracker.database.SleepNightDao
-import dev.filipebezerra.android.sleeptracker.util.ext.formatNights
+import dev.filipebezerra.android.sleeptracker.repository.SleepNightRepository
 import dev.filipebezerra.android.sleeptracker.util.event.Event
+import dev.filipebezerra.android.sleeptracker.util.ext.formatNights
 import dev.filipebezerra.android.sleeptracker.util.ext.postEvent
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 /**
  * ViewModel for SleepTrackerFragment
  */
 class SleepTrackerViewModel(
-    private val sleepNightDao: SleepNightDao,
+    private val repository: SleepNightRepository,
     application: Application,
 ) : AndroidViewModel(application), LifecycleObserver {
 
+// TODO: Fix observing LiveData instead of retrieving it in the init block
 //    private val _tonight: LiveData<SleepNight?> =
 //        Transformations.map(sleepNightDao.observeLatestNight()) {
 //            it?.let { sleepNight ->
@@ -30,9 +29,16 @@ class SleepTrackerViewModel(
 //            }
 //        }
 
+//    private val _tonight: LiveData<SleepNight?> = repository.latestSleepNight.map {
+//        when {
+//            it?.endTimeMillis != it?.startTimeMillis -> null
+//            else -> it
+//        }
+//    }.asLiveData()
+
     private var _tonight = MutableLiveData<SleepNight?>()
 
-    private val _sleepNights: LiveData<List<SleepNight>> = sleepNightDao.observeAllNights()
+    private val _sleepNights: LiveData<List<SleepNight>> = repository.allSleepNights.asLiveData()
 
     val emptySleepNights = Transformations.map(_sleepNights) { it.isEmpty() }
 
@@ -52,55 +58,44 @@ class SleepTrackerViewModel(
         viewModelScope.launch { _tonight.value = retrieveLatestNightFromDatabase() }
 
     private suspend fun retrieveLatestNightFromDatabase(): SleepNight? =
-        withContext(Dispatchers.IO) {
-            var latestNight = sleepNightDao.getLatestNight()
-            if (latestNight?.endTimeMillis != latestNight?.startTimeMillis) {
-                latestNight = null
+        repository.getLatestNight()
+            .apply {
+                return@retrieveLatestNightFromDatabase when {
+                    this?.endTimeMillis != this?.startTimeMillis -> null
+                    else -> this
+                }
             }
-            latestNight
-        }
 
-    fun onStartTracking() {
+    fun onStartTracking() = viewModelScope.launch {
         Timber.i("Starting sleep tracker")
-        viewModelScope.launch {
-            val sleepNight = SleepNight()
-            saveSleepNight(sleepNight)
-            _tonight.value = retrieveLatestNightFromDatabase()
-        }
+        val sleepNight = SleepNight()
+        saveSleepNight(sleepNight)
+        _tonight.value = retrieveLatestNightFromDatabase()
     }
 
-    fun onStopTracking() {
+    fun onStopTracking() = viewModelScope.launch {
+        val currentSleepNight = _tonight.value ?: return@launch
         Timber.i("Stopping sleep tracker")
-        viewModelScope.launch {
-            val currentSleepNight = _tonight.value ?: return@launch
-            currentSleepNight.endTimeMillis = System.currentTimeMillis()
-            saveSleepNight(currentSleepNight)
-            _navigateToSleepQuality.postEvent(currentSleepNight)
-        }
+        currentSleepNight.endTimeMillis = System.currentTimeMillis()
+        saveSleepNight(currentSleepNight)
+        _navigateToSleepQuality.postEvent(currentSleepNight)
     }
 
     private suspend fun saveSleepNight(sleepNight: SleepNight) {
-        withContext(Dispatchers.IO) {
-            with(sleepNight) {
-                if (nightId == 0L) {
-                    Timber.i("Saving new sleep night")
-                    sleepNightDao.insert(sleepNight)
-                } else {
-                    Timber.i("Updating sleep night $sleepNight")
-                    sleepNightDao.update(sleepNight)
-                }
-            }
+        sleepNight.takeIf { it.nightId == 0L }?.run {
+            Timber.i("Saving new sleep night")
+            repository.insert(sleepNight)
+        }
+        sleepNight.takeUnless { it.nightId == 0L }?.run {
+            Timber.i("Updating sleep night $sleepNight")
+            repository.update(sleepNight)
         }
     }
 
     // TODO: Improve it: run with WorkManager and notify user
-    fun onClearSleepData() {
+    fun onClearSleepData() = viewModelScope.launch {
         Timber.i("Clearing sleep night")
-        viewModelScope.launch { deleteAllSleepNights() }
-    }
-
-    private suspend fun deleteAllSleepNights() {
-        withContext(Dispatchers.IO) { sleepNightDao.deleteAll() }
+        repository.deleteAll()
     }
 }
 

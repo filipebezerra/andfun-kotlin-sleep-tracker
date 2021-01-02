@@ -8,7 +8,6 @@ import dev.filipebezerra.android.sleeptracker.sleepquality.SleepQuality.Companio
 import dev.filipebezerra.android.sleeptracker.sleepquality.SleepQuality.Companion.QUALITY_SO_SO
 import dev.filipebezerra.android.sleeptracker.sleepquality.SleepQuality.Companion.QUALITY_VERY_BAD
 
-
 @IntDef(
     QUALITY_VERY_BAD,
     QUALITY_POOR,

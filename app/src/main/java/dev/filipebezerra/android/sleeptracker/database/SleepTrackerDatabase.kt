@@ -37,20 +37,21 @@ abstract class SleepTrackerDatabase : RoomDatabase() {
         @Volatile
         private var databaseInstance: SleepTrackerDatabase? = null
 
-        fun getDatabase(context: Context): SleepTrackerDatabase {
-            synchronized(this) {
-                var database = databaseInstance
-                if (database == null) {
-                    database = Room.databaseBuilder(
-                            context.applicationContext,
-                            SleepTrackerDatabase::class.java,
-                            "SleepTracker.db"
-                    )
-                            .fallbackToDestructiveMigration()
-                            .build()
-                }
-                return database
+        fun getDatabase(context: Context): SleepTrackerDatabase =
+            databaseInstance ?: buildDatabase(context)
+
+        private fun buildDatabase(context: Context) =
+            databaseInstance ?: synchronized(this) {
+                Room.databaseBuilder(
+                    context.applicationContext,
+                    SleepTrackerDatabase::class.java,
+                    "SleepTracker.db"
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
+                    .also {
+                        databaseInstance = it
+                    }
             }
-        }
     }
 }

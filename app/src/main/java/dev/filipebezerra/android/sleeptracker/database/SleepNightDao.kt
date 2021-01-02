@@ -2,6 +2,7 @@ package dev.filipebezerra.android.sleeptracker.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SleepNightDao {
@@ -15,7 +16,7 @@ interface SleepNightDao {
     suspend fun deleteAll()
 
     @Query("SELECT * FROM sleep_nights ORDER BY start_time_millis DESC")
-    fun observeAllNights(): LiveData<List<SleepNight>>
+    fun observeAllNights(): Flow<List<SleepNight>>
 
     @Query("SELECT * FROM sleep_nights where id = :nightId")
     fun observeNight(nightId: Long): LiveData<SleepNight?>
@@ -24,7 +25,7 @@ interface SleepNightDao {
     suspend fun getNight(nightId: Long): SleepNight?
 
     @Query("SELECT * FROM sleep_nights ORDER BY start_time_millis DESC LIMIT 1")
-    fun observeLatestNight(): LiveData<SleepNight?>
+    fun observeLatestNight(): Flow<SleepNight?>
 
     @Query("SELECT * FROM sleep_nights ORDER BY start_time_millis DESC LIMIT 1")
     suspend fun getLatestNight(): SleepNight?
