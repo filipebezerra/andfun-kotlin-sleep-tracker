@@ -22,4 +22,8 @@
     <color name="yellow_400">#ffc000</color>
     <color name="yellow_500">#ffde03</color>
     <color name="yellow_dark_primary">#242316</color>
+    <color name="snackbar_background">@color/blue_700</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>
