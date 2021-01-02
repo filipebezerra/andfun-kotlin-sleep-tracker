@@ -8,9 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import dev.filipebezerra.android.sleeptracker.ServiceLocator
 import dev.filipebezerra.android.sleeptracker.databinding.FragmentSleepTrackerBinding
 import dev.filipebezerra.android.sleeptracker.util.event.EventObserver
+import dev.filipebezerra.android.sleeptracker.util.ext.setupSnackbar
 import dev.filipebezerra.android.sleeptracker.sleeptracker.SleepTrackerFragmentDirections.Companion.actionSleepTrackerFragmentToSleepQualityFragment as toSleepQualityFragment
 
 /**
@@ -49,6 +51,7 @@ class SleepTrackerFragment : Fragment() {
             navigateToSleepQuality.observe(viewLifecycleOwner, EventObserver {
                 navController.navigate(toSleepQualityFragment(it))
             })
+            view.setupSnackbar(viewLifecycleOwner, snackbarText, Snackbar.LENGTH_SHORT)
         }
     }
 }
