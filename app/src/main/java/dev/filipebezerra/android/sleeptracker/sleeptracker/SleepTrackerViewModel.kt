@@ -42,6 +42,8 @@ class SleepTrackerViewModel(
 
     val emptySleepNights = Transformations.map(_sleepNights) { it.isEmpty() }
 
+    val isCurrentlyTrackingSleep = Transformations.map(_tonight) { it != null }
+
     val sleepNightsText = Transformations.map(_sleepNights) {
         it.formatNights(application.resources)
     }
