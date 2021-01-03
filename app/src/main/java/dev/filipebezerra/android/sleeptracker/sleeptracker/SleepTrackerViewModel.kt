@@ -5,12 +5,10 @@ import androidx.lifecycle.*
 import dev.filipebezerra.android.sleeptracker.database.SleepNight
 import dev.filipebezerra.android.sleeptracker.repository.SleepNightRepository
 import dev.filipebezerra.android.sleeptracker.util.event.Event
-import dev.filipebezerra.android.sleeptracker.util.ext.formatNights
 import dev.filipebezerra.android.sleeptracker.util.ext.postEvent
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import dev.filipebezerra.android.sleeptracker.R
-import dev.filipebezerra.android.sleeptracker.SleepTrackerApplication
 
 /**
  * ViewModel for SleepTrackerFragment
@@ -40,15 +38,11 @@ class SleepTrackerViewModel(
 
     private var _tonight = MutableLiveData<SleepNight?>()
 
-    private val _sleepNights: LiveData<List<SleepNight>> = repository.allSleepNights.asLiveData()
+    val sleepNights: LiveData<List<SleepNight>> = repository.allSleepNights.asLiveData()
 
-    val emptySleepNights = Transformations.map(_sleepNights) { it.isEmpty() }
+    val emptySleepNights = Transformations.map(sleepNights) { it.isEmpty() }
 
     val isCurrentlyTrackingSleep = Transformations.map(_tonight) { it != null }
-
-    val sleepNightsText = Transformations.map(_sleepNights) {
-        it.formatNights(application.resources)
-    }
 
     private val _navigateToSleepQuality = MutableLiveData<Event<SleepNight>>()
     val navigateToSleepQuality: LiveData<Event<SleepNight>>

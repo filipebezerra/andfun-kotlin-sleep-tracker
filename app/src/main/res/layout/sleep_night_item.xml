@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+        <variable
+            name="sleepNight"
+            type="dev.filipebezerra.android.sleeptracker.database.SleepNight"
+            />
+    </data>
+
+    <TextView
+        android:id="@+id/sleep_night_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/normal_spacing"
+        android:textAppearance="?attr/textAppearanceBody1"
+        android:lineSpacingMultiplier="1.2"
+        android:minHeight="?attr/listPreferredItemHeight"
+        bind:sleepNight="@{sleepNight}"
+        tools:text="Start: domingo jan-03-2021 Time 11:59"
+        />
+</layout>

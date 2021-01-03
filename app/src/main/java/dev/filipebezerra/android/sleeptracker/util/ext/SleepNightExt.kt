@@ -63,9 +63,7 @@ private fun convertLongToDateString(systemTime: Long): String {
 fun List<SleepNight>.formatNights(resources: Resources): Spanned {
     val sb = StringBuilder()
     sb.apply {
-        append(resources.getString(R.string.title))
         this@formatNights.forEach {
-            append("<br>")
             append(resources.getString(R.string.start_time))
             append("\t${convertLongToDateString(it.startTimeMillis)}<br>")
             if (it.endTimeMillis != it.startTimeMillis) {
@@ -79,7 +77,7 @@ fun List<SleepNight>.formatNights(resources: Resources): Spanned {
                 // Minutes
                 append("${it.endTimeMillis.minus(it.startTimeMillis) / 1000 / 60}:")
                 // Seconds
-                append("${it.endTimeMillis.minus(it.startTimeMillis) / 1000}<br><br>")
+                append("${it.endTimeMillis.minus(it.startTimeMillis) / 1000}")
             }
         }
     }
