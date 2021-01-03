@@ -10,10 +10,10 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dev.filipebezerra.android.sleeptracker.ServiceLocator
-import dev.filipebezerra.android.sleeptracker.databinding.FragmentSleepTrackerBinding
+import dev.filipebezerra.android.sleeptracker.databinding.SleepTrackerFragmentBinding
+import dev.filipebezerra.android.sleeptracker.databinding.SleepTrackerFragmentBinding.inflate
 import dev.filipebezerra.android.sleeptracker.util.event.EventObserver
 import dev.filipebezerra.android.sleeptracker.util.ext.setupSnackbar
-import dev.filipebezerra.android.sleeptracker.sleeptracker.SleepTrackerFragmentDirections.Companion.actionSleepTrackerFragmentToSleepQualityFragment as toSleepQualityFragment
 
 /**
  * A fragment with buttons to record start and end times for sleep, which are saved in
@@ -24,7 +24,7 @@ class SleepTrackerFragment : Fragment() {
 
     private val navController: NavController by lazy { findNavController() }
 
-    private lateinit var viewBinding: FragmentSleepTrackerBinding
+    private lateinit var viewBinding: SleepTrackerFragmentBinding
 
     private val viewModel: SleepTrackerViewModel by viewModels {
         SleepTrackerViewModelFactory(
@@ -37,7 +37,7 @@ class SleepTrackerFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View = FragmentSleepTrackerBinding.inflate(inflater, container, false)
+    ): View = inflate(inflater, container, false)
             .apply {
                 viewBinding = this
                 viewModel = this@SleepTrackerFragment.viewModel
@@ -49,7 +49,8 @@ class SleepTrackerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(viewModel) {
             navigateToSleepQuality.observe(viewLifecycleOwner, EventObserver {
-                navController.navigate(toSleepQualityFragment(it))
+                navController.navigate(SleepTrackerFragmentDirections
+                    .actionSleepTrackerFragmentToSleepQualityFragment(it))
             })
             view.setupSnackbar(viewLifecycleOwner, snackbarText, Snackbar.LENGTH_SHORT)
         }

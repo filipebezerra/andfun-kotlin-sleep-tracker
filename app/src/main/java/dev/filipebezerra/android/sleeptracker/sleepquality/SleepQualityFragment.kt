@@ -24,7 +24,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dev.filipebezerra.android.sleeptracker.database.SleepTrackerDatabase
-import dev.filipebezerra.android.sleeptracker.databinding.FragmentSleepQualityBinding
+import dev.filipebezerra.android.sleeptracker.databinding.SleepQualityFragmentBinding
+import dev.filipebezerra.android.sleeptracker.databinding.SleepQualityFragmentBinding.inflate
 import dev.filipebezerra.android.sleeptracker.util.event.EventObserver
 
 /**
@@ -44,7 +45,7 @@ class SleepQualityFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private lateinit var viewBinding: FragmentSleepQualityBinding
+    private lateinit var viewBinding: SleepQualityFragmentBinding
 
     /**
      * Called when the Fragment is ready to display content to the screen.
@@ -55,7 +56,7 @@ class SleepQualityFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragmentSleepQualityBinding.inflate(inflater, container, false)
+    ): View = inflate(inflater, container, false)
         .apply {
             viewBinding = this
             viewModel = this@SleepQualityFragment.viewModel
