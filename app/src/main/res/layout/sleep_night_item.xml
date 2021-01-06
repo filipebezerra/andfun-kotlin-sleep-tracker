@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     >
-
     <data>
         <variable
             name="sleepNight"
@@ -11,15 +11,50 @@
             />
     </data>
 
-    <TextView
-        android:id="@+id/sleep_night_text"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/normal_spacing"
-        android:textAppearance="?attr/textAppearanceBody1"
-        android:lineSpacingMultiplier="1.2"
-        android:minHeight="?attr/listPreferredItemHeight"
-        bind:sleepNight="@{sleepNight}"
-        tools:text="Start: domingo jan-03-2021 Time 11:59"
-        />
+        >
+
+        <ImageView
+            android:id="@+id/sleep_quality_image"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:sleepQualityImage="@{sleepNight.sleepQuality}"
+            bind:sleepQualityDescription="@{sleepNight.startTimeMillis}"
+            tools:srcCompat="@drawable/ic_sleep_0"
+            />
+
+        <TextView
+            android:id="@+id/sleep_quality_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_spacing"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sleep_quality_image"
+            app:layout_constraintTop_toTopOf="@+id/sleep_quality_image"
+            app:layout_constraintBottom_toTopOf="@+id/sleep_lenght_text"
+            bind:sleepQualityText="@{sleepNight.sleepQuality}"
+            tools:text="Excellent!!!"
+            />
+
+        <TextView
+            android:id="@+id/sleep_lenght_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_spacing"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sleep_quality_image"
+            app:layout_constraintBottom_toBottomOf="@+id/sleep_quality_image"
+            app:layout_constraintTop_toBottomOf="@+id/sleep_quality_text"
+            bind:sleepLenght="@{sleepNight.startTimeMillis}"
+            tools:text="Wednesday"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -12,13 +12,23 @@ import dev.filipebezerra.android.sleeptracker.database.SleepNight
 import java.text.SimpleDateFormat
 
 /**
- * These functions create a formatted string that can be set in a TextView.
+ * Returns a drawable resource representing the image quality rating.
  */
+fun convertNumericQualityToDrawableResource(quality: Int, resources: Resources): Int =
+    when (quality) {
+        0 -> R.drawable.ic_sleep_0
+        1 -> R.drawable.ic_sleep_1
+        2 -> R.drawable.ic_sleep_2
+        3 -> R.drawable.ic_sleep_3
+        4 -> R.drawable.ic_sleep_4
+        5 -> R.drawable.ic_sleep_5
+        else -> R.drawable.ic_sleep_active
+    }
 
 /**
  * Returns a string representing the numeric quality rating.
  */
-private fun convertNumericQualityToString(quality: Int, resources: Resources): String {
+fun convertNumericQualityToString(quality: Int, resources: Resources): String {
     var qualityString = resources.getString(R.string.three_ok)
     when (quality) {
         -1 -> qualityString = "--"
@@ -31,7 +41,6 @@ private fun convertNumericQualityToString(quality: Int, resources: Resources): S
     return qualityString
 }
 
-
 /**
  * Take the Long milliseconds returned by the system and stored in Room,
  * and convert it to a nicely formatted string for display.
@@ -42,7 +51,7 @@ private fun convertNumericQualityToString(quality: Int, resources: Resources): S
  * HH:mm - Hours and minutes in 24hr format
  */
 @SuppressLint("SimpleDateFormat")
-private fun convertLongToDateString(systemTime: Long): String {
+fun convertLongToDateString(systemTime: Long): String {
     return SimpleDateFormat("EEEE MMM-dd-yyyy' Time: 'HH:mm")
             .format(systemTime).toString()
 }
