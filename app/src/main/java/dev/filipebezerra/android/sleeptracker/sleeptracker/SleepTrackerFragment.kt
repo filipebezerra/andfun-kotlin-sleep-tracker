@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import dev.filipebezerra.android.sleeptracker.ServiceLocator
 import dev.filipebezerra.android.sleeptracker.databinding.SleepTrackerFragmentBinding
@@ -40,6 +41,10 @@ class SleepTrackerFragment : Fragment() {
     ): View = inflate(inflater, container, false)
             .apply {
                 viewBinding = this
+                with(viewBinding.sleepNightList) {
+                    adapter = SleepNightAdapter()
+                    itemAnimator = DefaultItemAnimator()
+                }
                 viewModel = this@SleepTrackerFragment.viewModel
                 lifecycleOwner = viewLifecycleOwner
             }

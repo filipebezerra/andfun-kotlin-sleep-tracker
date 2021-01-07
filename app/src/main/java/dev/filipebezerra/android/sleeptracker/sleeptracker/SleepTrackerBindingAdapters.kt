@@ -13,5 +13,5 @@ fun TextView.bindSleepNight(sleepNight: SleepNight?) = sleepNight?.apply {
 
 @BindingAdapter("sleepNightList")
 fun RecyclerView.bindSleepNightList(sleepNightList: List<SleepNight>?) = sleepNightList?.apply {
-    adapter = SleepNightAdapter(this)
+    (adapter as SleepNightAdapter).submitList(this)
 }

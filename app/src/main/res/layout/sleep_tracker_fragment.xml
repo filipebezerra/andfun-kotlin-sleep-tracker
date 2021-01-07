@@ -32,14 +32,15 @@
             />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sleep_night_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:clipToPadding="false"
             app:layout_constraintBottom_toTopOf="@+id/clear_sleep_data_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sleep_night_title"
-            android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             bind:sleepNightList="@{viewModel.sleepNights}"
             tools:listitem="@layout/sleep_night_item"
