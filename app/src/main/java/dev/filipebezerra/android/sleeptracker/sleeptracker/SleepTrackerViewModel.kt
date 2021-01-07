@@ -80,6 +80,7 @@ class SleepTrackerViewModel(
         Timber.i("Stopping sleep tracker")
         currentSleepNight.endTimeMillis = System.currentTimeMillis()
         saveSleepNight(currentSleepNight)
+        _tonight.value = retrieveLatestNightFromDatabase()
         _navigateToSleepQuality.postEvent(currentSleepNight)
     }
 
