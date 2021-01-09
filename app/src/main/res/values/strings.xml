@@ -18,8 +18,8 @@
 
     <!-- App title and fragment titles -->
     <string name="app_name">Sleep Tracker</string>
-    <string name="sleep_tracker_fragment">SleepTrackerFragment</string>
-    <string name="sleep_quality_fragment">SleepQualityFragment</string>
+    <string name="sleep_quality_title">Sleep quality</string>
+    <string name="sleep_detail_title">Sleep details</string>
 
     <!-- Button labels -->
     <string name="start">Start</string>
@@ -60,5 +60,7 @@
     <string name="view_as">View as</string>
     <string name="view_as_list">View as List</string>
     <string name="view_as_grid">View as Grid</string>
+    <string name="on">on</string>
+    <string name="this_sleep_was">This sleep was</string>
 
 </resources>

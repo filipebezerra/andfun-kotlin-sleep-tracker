@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat
 /**
  * Returns a drawable resource representing the image quality rating.
  */
-fun convertNumericQualityToDrawableResource(quality: Int, resources: Resources): Int =
+fun convertNumericQualityToDrawableResource(quality: Int): Int =
     when (quality) {
         0 -> R.drawable.ic_sleep_0
         1 -> R.drawable.ic_sleep_1

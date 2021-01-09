@@ -43,7 +43,7 @@
             app:layout_constraintTop_toBottomOf="@+id/sleep_night_title"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             bind:sleepNightList="@{viewModel.sleepNights}"
-            tools:listitem="@layout/sleep_night_item"
+            tools:listitem="@layout/sleep_night_list_item"
             />
 
         <Button

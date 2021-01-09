@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/sleep_tracker_fragment"
         android:name="dev.filipebezerra.android.sleeptracker.sleeptracker.SleepTrackerFragment"
-        android:label="@string/sleep_tracker_fragment"
+        android:label="@string/app_name"
         tools:layout="@layout/sleep_tracker_fragment"
         >
         <action
@@ -18,12 +18,16 @@
             app:enterAnim="@anim/slide_in_right"
             app:popEnterAnim="@anim/slide_in_right"
             />
+        <action
+            android:id="@+id/action_sleep_tracker_fragment_to_sleep_detail_fragment"
+            app:destination="@id/sleep_detail_fragment"
+            />
     </fragment>
 
     <dialog
         android:id="@+id/sleep_quality_fragment"
         android:name="dev.filipebezerra.android.sleeptracker.sleepquality.SleepQualityFragment"
-        android:label="@string/sleep_quality_fragment"
+        android:label="@string/sleep_quality_title"
         tools:layout="@layout/sleep_quality_fragment"
         >
         <argument
@@ -38,4 +42,15 @@
             app:popUpToInclusive="true"
             />
     </dialog>
+    <fragment
+        android:id="@+id/sleep_detail_fragment"
+        android:name="dev.filipebezerra.android.sleeptracker.sleepdetail.SleepDetailFragment"
+        android:label="@string/sleep_detail_title"
+        tools:layout="@layout/sleep_detail_fragment"
+        >
+        <argument
+            android:name="sleepNightId"
+            app:argType="long"
+            />
+    </fragment>
 </navigation>

@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.filipebezerra.android.sleeptracker.database.SleepNight
-import dev.filipebezerra.android.sleeptracker.databinding.SleepNightItemBinding
+import dev.filipebezerra.android.sleeptracker.databinding.SleepNightListItemBinding
 import dev.filipebezerra.android.sleeptracker.databinding.SleepNightGridItemBinding
 
-class SleepNightAdapter : ListAdapter<SleepNight, RecyclerView.ViewHolder>(SleepNightItemDiff()) {
+class SleepNightAdapter(
+    private val sleepNightListener: SleepNightListener,
+) : ListAdapter<SleepNight, RecyclerView.ViewHolder>(SleepNightItemDiff()) {
     private var viewStyle: ViewStyle = ViewStyle.LIST
 
     fun changeViewStyle(viewStyle: ViewStyle) = apply {
@@ -33,22 +35,23 @@ class SleepNightAdapter : ListAdapter<SleepNight, RecyclerView.ViewHolder>(Sleep
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
         when(viewStyle) {
-            ViewStyle.LIST -> (holder as ListViewHolder).bindTo(getItem(position))
-            ViewStyle.GRID -> (holder as GridViewHolder).bindTo(getItem(position))
+            ViewStyle.LIST -> (holder as ListViewHolder).bindTo(getItem(position), sleepNightListener)
+            ViewStyle.GRID -> (holder as GridViewHolder).bindTo(getItem(position), sleepNightListener)
         }
 
     class ListViewHolder private constructor(
-        private val itemBinding: SleepNightItemBinding,
+        private val itemBinding: SleepNightListItemBinding,
     ): RecyclerView.ViewHolder(itemBinding.root) {
-        fun bindTo(item: SleepNight) =
+        fun bindTo(item: SleepNight, sleepNightListener: SleepNightListener) =
             with(itemBinding) {
                 sleepNight = item
+                clickListener = sleepNightListener
                 executePendingBindings()
             }
 
         companion object {
             fun createFrom(parent: ViewGroup): RecyclerView.ViewHolder =
-                ListViewHolder(SleepNightItemBinding.inflate(
+                ListViewHolder(SleepNightListItemBinding.inflate(
                     from(parent.context),
                     parent,
                     false
@@ -59,9 +62,10 @@ class SleepNightAdapter : ListAdapter<SleepNight, RecyclerView.ViewHolder>(Sleep
     class GridViewHolder private constructor(
         private val itemBinding: SleepNightGridItemBinding,
     ): RecyclerView.ViewHolder(itemBinding.root) {
-        fun bindTo(item: SleepNight) =
+        fun bindTo(item: SleepNight, sleepNightListener: SleepNightListener) =
             with(itemBinding) {
                 sleepNight = item
+                clickListener = sleepNightListener
                 executePendingBindings()
             }
 
@@ -82,3 +86,7 @@ class SleepNightItemDiff : DiffUtil.ItemCallback<SleepNight>() {
 }
 
 enum class ViewStyle { LIST, GRID }
+
+class SleepNightListener(val clickCallback: (sleepNight: SleepNight) -> Unit) {
+    fun onClick(sleepNight: SleepNight) = clickCallback(sleepNight)
+}

@@ -17,7 +17,7 @@ fun ImageView.bindSleepQualityImage(
 ) = sleepQuality?.let { quality ->
     startTimeMillis?.let { startTime ->
         context.resources.also { resources ->
-            setImageResource(convertNumericQualityToDrawableResource(quality, resources))
+            setImageResource(convertNumericQualityToDrawableResource(quality))
             contentDescription = resources.getString(
                 R.string.sleep_quality_description_format,
                 convertNumericQualityToString(quality, resources),

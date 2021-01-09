@@ -44,7 +44,11 @@ class SleepTrackerFragment : Fragment() {
     ): View = inflate(inflater, container, false)
             .apply {
                 viewBinding = this
-                SleepNightAdapter().apply {
+                SleepNightAdapter(
+                    SleepNightListener {
+                        viewModel?.onSleepNightSelected(it)
+                    }
+                ).apply {
                     listAdapter = this
                     viewBinding.sleepNightList.adapter = listAdapter
                 }
@@ -62,6 +66,10 @@ class SleepTrackerFragment : Fragment() {
                     .actionSleepTrackerFragmentToSleepQualityFragment(it))
             })
             view.setupSnackbar(viewLifecycleOwner, snackbarText, Snackbar.LENGTH_SHORT)
+            navigateToSleepDetail.observe(viewLifecycleOwner, EventObserver {
+                navController.navigate(SleepTrackerFragmentDirections
+                    .actionSleepTrackerFragmentToSleepDetailFragment(it))
+            })
         }
     }
 

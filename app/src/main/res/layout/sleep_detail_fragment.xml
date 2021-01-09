@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    tools:context=".sleepdetail.SleepDetailFragment"
+    >
+
+    <data>
+        <variable
+            name="viewModel"
+            type="dev.filipebezerra.android.sleeptracker.sleepdetail.SleepDetailViewModel"
+            />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/larger_spacing"
+        >
+
+        <TextView
+            android:id="@+id/this_sleep_was_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/largest_spacing"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/this_sleep_was"
+            />
+
+        <ImageView
+            android:id="@+id/sleep_quality_image"
+            android:layout_width="@dimen/double_icon_size"
+            android:layout_height="@dimen/double_icon_size"
+            android:layout_marginTop="@dimen/largest_spacing"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/this_sleep_was_text"
+            bind:sleepQualityImage="@{viewModel.sleepNight.sleepQuality}"
+            bind:sleepQualityDescription="@{viewModel.sleepNight.startTimeMillis}"
+            tools:srcCompat="@drawable/ic_sleep_0"
+            />
+
+        <TextView
+            android:id="@+id/sleep_quality_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/larger_spacing"
+            android:textAppearance="?attr/textAppearanceHeadline4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sleep_quality_image"
+            bind:sleepQualityText="@{viewModel.sleepNight.sleepQuality}"
+            tools:text="Excellent!!!"
+            />
+
+        <TextView
+            android:id="@+id/on_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal_spacing"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sleep_quality_text"
+            android:text="@string/on"
+            />
+
+        <TextView
+            android:id="@+id/sleep_lenght_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/normal_spacing"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/on_text"
+            bind:sleepLenght="@{viewModel.sleepNight.startTimeMillis}"
+            tools:text="Wednesday"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

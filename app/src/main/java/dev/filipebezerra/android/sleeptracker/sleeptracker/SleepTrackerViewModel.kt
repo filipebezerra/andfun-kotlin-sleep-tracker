@@ -2,13 +2,13 @@ package dev.filipebezerra.android.sleeptracker.sleeptracker
 
 import android.app.Application
 import androidx.lifecycle.*
+import dev.filipebezerra.android.sleeptracker.R
 import dev.filipebezerra.android.sleeptracker.database.SleepNight
 import dev.filipebezerra.android.sleeptracker.repository.SleepNightRepository
 import dev.filipebezerra.android.sleeptracker.util.event.Event
 import dev.filipebezerra.android.sleeptracker.util.ext.postEvent
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import dev.filipebezerra.android.sleeptracker.R
 
 /**
  * ViewModel for SleepTrackerFragment
@@ -51,6 +51,10 @@ class SleepTrackerViewModel(
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarText: LiveData<Event<Int>>
         get() = _snackbarText
+
+    private val _navigateToSleepDetail = MutableLiveData<Event<Long>>()
+    val navigateToSleepDetail: LiveData<Event<Long>>
+        get() = _navigateToSleepDetail
 
     init {
         retrieveLatestNight()
@@ -100,6 +104,11 @@ class SleepTrackerViewModel(
         Timber.i("Clearing sleep night")
         repository.deleteAll()
         _snackbarText.postEvent(R.string.cleared_messages)
+    }
+
+    fun onSleepNightSelected(sleepNight: SleepNight) {
+        Timber.i("User selected sleep $sleepNight")
+        _navigateToSleepDetail.postEvent(sleepNight.nightId)
     }
 }
 
