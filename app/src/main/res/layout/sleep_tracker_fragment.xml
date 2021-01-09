@@ -48,7 +48,6 @@
 
         <Button
             android:id="@+id/start_tracking_button"
-            style="@style/SleepButtons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin"
@@ -64,7 +63,6 @@
 
         <Button
             android:id="@+id/stop_tracking_button"
-            style="@style/SleepButtons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin"
@@ -80,7 +78,6 @@
 
         <Button
             android:id="@+id/clear_sleep_data_button"
-            style="@style/SleepButtons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin"

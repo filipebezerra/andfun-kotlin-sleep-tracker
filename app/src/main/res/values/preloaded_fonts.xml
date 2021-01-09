@@ -18,5 +18,6 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/raleway</item>
         <item>@font/raleway_medium</item>
+        <item>@font/rubik_medium</item>
     </array>
 </resources>

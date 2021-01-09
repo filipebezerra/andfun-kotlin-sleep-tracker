@@ -1,41 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.SleepTracker" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!--
+        https://medium.com/over-engineering/setting-up-a-material-components-theme-for-android-fbf7774da739#f986
+        -->
+        <!--
+        The primary brand color of your app, used most predominantly in theming
+        -->
         <item name="colorPrimary">@color/blue_700</item>
-        <item name="colorPrimaryDark">@color/blue_dark_primary</item>
-        <item name="colorAccent">@color/yellow_500</item>
+        <!--
+        A lighter/darker variant of your primary brand color, used sparingly in theming
+        -->
+        <item name="colorPrimaryVariant">@color/blue_800</item>
+        <!--
+        The color used for elements displayed on top of your primary colors (eg. Text and icons,
+        often white or semi-transparent black depending on accessibility)
+        -->
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!--
+        The secondary brand color of your app, used mostly as an accent for certain widgets that
+        need to stand out
+        -->
+        <item name="colorSecondary">@color/yellow_500</item>
+        <!--
+        A lighter/darker variant of your secondary brand color, used sparingly in theming
+        -->
+        <item name="colorSecondaryVariant">@color/yellow_400</item>
+        <!--
+        The color used for elements displayed on top of your secondary colors
+        -->
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!--
+        The color used for errors (often a shade of red)
+        -->
+        <item name="colorError">@color/red_600</item>
+        <!--
+        The color used for elements displayed on top of your error color
+        -->
+        <item name="colorOnError">@color/white</item>
+
+        <!--
+        The color used for surfaces (i.e. Material “sheets”)
+        -->
+        <item name="colorSurface">@color/blue_dark_primary</item>
+        <!--
+        The color used for elements displayed on top of your surface color
+        -->
+        <item name="colorOnSurface">@color/white</item>
+
+        <!--
+        The color behind all other screen content
+        -->
+        <item name="android:colorBackground">@color/blue_700</item>
+        <!--
+        The color used for elements displayed on top of your background color
+        -->
+        <item name="colorOnBackground">@color/white</item>
+
         <item name="fontFamily">@font/raleway_medium</item>
         <item name="android:fontFamily">@font/raleway_medium</item>
-        <item name="android:colorBackground">@color/blue_700</item>
-        <item name="colorError">@color/design_default_color_error</item>
+
         <item name="android:textColor">@color/white</item>
 
-        <!-- New MaterialComponents attributes. -->
-        <item name="colorPrimaryVariant">@color/blue_800</item>
-        <item name="colorSecondaryVariant">@color/yellow_400</item>
-        <item name="colorSurface">@color/blue_dark_primary</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <item name="colorOnBackground">@color/black</item>
-        <item name="colorOnError">@color/black</item>
-        <item name="colorOnSurface">@color/black</item>
-        <item name="scrimBackground">@color/mtrl_scrim_color</item>
-        <item name="textAppearanceHeadline1">@style/TextAppearance.MaterialComponents.Headline1</item>
-        <item name="textAppearanceHeadline2">@style/TextAppearance.MaterialComponents.Headline2</item>
-        <item name="textAppearanceHeadline3">@style/TextAppearance.MaterialComponents.Headline3</item>
-        <item name="textAppearanceHeadline4">@style/TextAppearance.MaterialComponents.Headline4</item>
-        <item name="textAppearanceHeadline5">@style/TextAppearance.MaterialComponents.Headline5</item>
-        <item name="textAppearanceHeadline6">@style/TextAppearance.MaterialComponents.Headline6</item>
-        <item name="textAppearanceSubtitle1">@style/TextAppearance.MaterialComponents.Subtitle1</item>
-        <item name="textAppearanceSubtitle2">@style/TextAppearance.MaterialComponents.Subtitle2</item>
-        <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1</item>
-        <item name="textAppearanceBody2">@style/TextAppearance.MaterialComponents.Body2</item>
-        <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption</item>
-        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
-        <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>
-
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.SleepTracker.BottomSheetDialog</item>
+
+        <!--
+        https://github.com/material-components/material-components-android/blob/master/docs/components/Menu.md#implementing-menu-theming
+        -->
+        <item name="textAppearanceSmallPopupMenu">@style/TextAppearance.SleepTracker.Subtitle1</item>
+        <item name="textAppearanceLargePopupMenu">@style/TextAppearance.SleepTracker.Subtitle1</item>
+        <item name="popupMenuBackground">@drawable/popup_menu_background</item>
+
+        <!--
+        https://material.io/components/buttons/android#theming-buttons
+        -->
+        <item name="materialButtonStyle">@style/Widget.SleepTracker.Button</item>
     </style>
 
     <style name="ThemeOverlay.SleepTracker.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
@@ -44,11 +86,28 @@
         <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
     </style>
 
-    <!-- Basic styling for the buttons. -->
-    <style name="SleepButtons" parent="Widget.AppCompat.Button.Colored">
-        <item name="colorAccent">?attr/colorAccent</item>
-        <item name="colorControlHighlight">?attr/colorAccent</item>
+    <style name="TextAppearance.SleepTracker.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="android:fontFamily">@font/rubik_medium</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    
+    <style name="Widget.SleepTracker.Button" parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.SleepTracker.Button</item>
+        <item name="android:textAppearance">@style/TextAppearance.SleepTracker.Button</item>
+    </style>
+    
+    <style name="ThemeOverlay.SleepTracker.Button" parent="">
+        <item name="colorPrimary">@color/yellow_400</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.SleepTracker.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="android:fontFamily">@font/rubik_medium</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textSize">18sp</item>
     </style>
 </resources>

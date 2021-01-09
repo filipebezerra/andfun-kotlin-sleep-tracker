@@ -57,5 +57,8 @@
     <string name="stop_tracking_your_night_sleep">Stop tracking your night sleep</string>
     <string name="clear_all_night_sleep_data_forever">Clear all night sleep data forever</string>
     <string name="sleep_quality_description_format">A %1$s night sleep %2$s</string>
+    <string name="view_as">View as</string>
+    <string name="view_as_list">View as List</string>
+    <string name="view_as_grid">View as Grid</string>
 
 </resources>
