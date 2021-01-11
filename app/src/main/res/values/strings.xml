@@ -62,5 +62,6 @@
     <string name="view_as_grid">View as Grid</string>
     <string name="on">on</string>
     <string name="this_sleep_was">This sleep was</string>
+    <string name="header_text">Sleep Data</string>
 
 </resources>

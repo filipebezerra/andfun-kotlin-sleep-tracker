@@ -18,19 +18,6 @@
         android:layout_height="match_parent"
         >
 
-        <TextView
-            android:id="@+id/sleep_night_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/normal_spacing"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:text="@string/title"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/start_tracking_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/sleep_night_list"
             android:layout_width="0dp"
@@ -40,7 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sleep_night_title"
+            app:layout_constraintTop_toBottomOf="@+id/start_tracking_button"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             bind:sleepNightList="@{viewModel.sleepNights}"
             tools:listitem="@layout/sleep_night_list_item"

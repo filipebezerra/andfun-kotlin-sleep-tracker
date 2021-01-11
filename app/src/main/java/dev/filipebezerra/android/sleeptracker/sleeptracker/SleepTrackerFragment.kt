@@ -67,8 +67,10 @@ class SleepTrackerFragment : Fragment() {
             })
             view.setupSnackbar(viewLifecycleOwner, snackbarText, Snackbar.LENGTH_SHORT)
             navigateToSleepDetail.observe(viewLifecycleOwner, EventObserver {
-                navController.navigate(SleepTrackerFragmentDirections
-                    .actionSleepTrackerFragmentToSleepDetailFragment(it))
+                navController.navigate(
+                    SleepTrackerFragmentDirections
+                        .actionSleepTrackerFragmentToSleepDetailFragment(it)
+                )
             })
         }
     }
@@ -76,31 +78,33 @@ class SleepTrackerFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
         inflater.inflate(R.menu.sleep_tracker_menu, menu)
 
-    override fun onPrepareOptionsMenu(menu: Menu) =
-        when(listAdapter.getViewStyle()) {
-            ViewStyle.LIST -> menu.findItem(R.id.view_as_list_action).isVisible = false
-            ViewStyle.GRID -> menu.findItem(R.id.view_as_grid_action).isVisible = false
-        }
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        if (listAdapter.listViewStyle == ListViewStyle.LIST)
+            menu.findItem(R.id.view_as_list_action).isVisible = false
+        else if (listAdapter.listViewStyle == ListViewStyle.GRID)
+            menu.findItem(R.id.view_as_grid_action).isVisible = false
+    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId) {
-        R.id.view_as_list_action -> changeListAdapterViewStyle(ViewStyle.LIST)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.view_as_list_action -> changeListAdapterViewStyle(ListViewStyle.LIST)
             .also { (activity as AppCompatActivity).invalidateOptionsMenu() }
             .run { true }
-        R.id.view_as_grid_action -> changeListAdapterViewStyle(ViewStyle.GRID)
+        R.id.view_as_grid_action -> changeListAdapterViewStyle(ListViewStyle.GRID)
             .also { (activity as AppCompatActivity).invalidateOptionsMenu() }
             .run { true }
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun changeListAdapterViewStyle(viewStyle: ViewStyle) =
-        when(viewStyle) {
-            ViewStyle.LIST -> {
-                viewBinding.sleepNightList.layoutManager = LinearLayoutManager(context)
-                listAdapter.changeViewStyle(ViewStyle.LIST)
-            }
-            ViewStyle.GRID -> {
-                viewBinding.sleepNightList.layoutManager = GridLayoutManager(context, 3)
-                listAdapter.changeViewStyle(ViewStyle.GRID)
-            }
+    private fun changeListAdapterViewStyle(listViewStyle: ListViewStyle) {
+        if (listViewStyle == ListViewStyle.LIST) {
+            viewBinding.sleepNightList.layoutManager = LinearLayoutManager(context)
+            listAdapter.changeViewStyle(ListViewStyle.LIST)
+        } else if (listViewStyle == ListViewStyle.GRID) {
+            viewBinding.sleepNightList.layoutManager = GridLayoutManager(
+                context,
+                SLEEP_NIGHT_GRID_SPAN_COUNT
+            ).withSpanSizeLookupForHeaderAndList()
+            listAdapter.changeViewStyle(ListViewStyle.GRID)
         }
+    }
 }
